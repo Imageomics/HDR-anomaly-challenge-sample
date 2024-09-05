@@ -3,12 +3,11 @@ from pathlib import Path
 
 import torch
 from torch.utils.data import DataLoader
-from open_clip import create_model
 
 from dataset import ButterflyDataset
 from data_utils import data_transforms, load_data
 from evaluation import evaluate, print_evaluation, print_major_minor_stats
-from model_utils import get_feats_and_meta
+from model_utils import get_feats_and_meta, get_dino_model
 from classifier import train, get_scores
 
 # Configuration         
@@ -26,7 +25,7 @@ def setup_data_and_model():
     MINOR_CAMS = test_data[test_data["ssp_indicator"] == "minor"]["CAMID"].tolist()
 
     # Model setup
-    model = create_model("hf-hub:imageomics/bioclip", output_dict=True, require_pretrained=True)
+    model = get_dino_model()
     return model.to(DEVICE), train_data, test_data
 
 def prepare_data_loaders(train_data, test_data):
@@ -52,7 +51,7 @@ def train_and_evaluate(tr_features, tr_labels, test_features, test_labels, test_
         eval_scores = evaluate(scores, test_labels, reversed=False)
         print_major_minor_stats(scores, test_labels, test_camids, MAJOR_CAMS, MINOR_CAMS, reversed=False)        
         print_evaluation(*eval_scores)
-        csv_output.append([f"BioCLIP Features + {con}"] + list(eval_scores))
+        csv_output.append([f"DINO Features + {con}"] + list(eval_scores))
     return csv_output
 
 def main():
