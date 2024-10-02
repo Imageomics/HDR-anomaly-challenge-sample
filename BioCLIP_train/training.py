@@ -2,6 +2,7 @@ import csv
 from pathlib import Path
 
 import torch
+import joblib 
 from torch.utils.data import DataLoader
 from open_clip import create_model
 
@@ -13,8 +14,9 @@ from classifier import train, get_scores
 
 # Configuration         
 ROOT_DATA_DIR = Path("/path/to/your/project/data")
-DATA_FILE = ROOT_DATA_DIR / "butterfly_anomaly_train.csv"
-IMG_DIR = Path("/path/to/your/project/images")
+DATA_FILE = ROOT_DATA_DIR / "ref" / "butterfly_anomaly_train.csv"
+IMG_DIR = ROOT_DATA_DIR / "images"
+CLF_SAVE_DIR = Path("/path/to/your/project/models/trained_clfs")
 DEVICE = "cuda:1"
 BATCH_SIZE = 4
 
@@ -44,9 +46,15 @@ def extract_features(tr_sig_dloader, test_dl, model):
 def train_and_evaluate(tr_features, tr_labels, test_features, test_labels, test_camids):
     configs = ["svm", "sgd", "knn"]
     csv_output = []
+
     for con in configs:
         print(f"Training and evaluating {con}...")
         clf, acc, h_acc, nh_acc = train(tr_features, tr_labels, con)
+
+        # Save model to the specified path
+        model_filename = CLF_SAVE_DIR / f"trained_{con}_classifier.pkl"
+        joblib.dump(clf, model_filename)
+        print(f"Saved {con} classifier to {model_filename}")
         print(f"{con}: Acc - {acc:.4f}, Hacc - {h_acc:.4f}, NHacc - {nh_acc:.4f}")
         scores = get_scores(clf, test_features)
         eval_scores = evaluate(scores, test_labels, reversed=False)
@@ -60,6 +68,10 @@ def main():
     tr_sig_dloader, test_dl = prepare_data_loaders(train_data, test_data)
     tr_features, tr_labels, test_features, test_labels, test_camids = extract_features(tr_sig_dloader, test_dl, model)
     csv_output = train_and_evaluate(tr_features, tr_labels, test_features, test_labels, test_camids)
-    
+    csv_filename = CLF_SAVE_DIR / "classifier_evaluation_results.csv"
+    with open(csv_filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(csv_output)
+
 if __name__ == "__main__":
     main()
