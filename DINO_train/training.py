@@ -7,24 +7,21 @@ from torch.utils.data import DataLoader
 
 from dataset import ButterflyDataset
 from data_utils import data_transforms, load_data
-from evaluation import evaluate, print_evaluation, print_major_minor_stats
+from evaluation import evaluate, print_evaluation
 from model_utils import get_feats_and_meta, get_dino_model
 from classifier import train, get_scores
 
 # Configuration         
-ROOT_DATA_DIR = Path("/path/to/your/project/data")
+ROOT_DATA_DIR = Path("/local/scratch/wu.5686/anomaly_challenge")
 DATA_FILE = ROOT_DATA_DIR / "ref" / "butterfly_anomaly_train.csv"
-IMG_DIR = ROOT_DATA_DIR / "images"
-CLF_SAVE_DIR = Path("/path/to/your/project/models/trained_clfs")
+IMG_DIR = ROOT_DATA_DIR / "input_data"/ "train_downsized"
+CLF_SAVE_DIR = Path("/home/zhang.13617/Desktop/output")
 DEVICE = "cuda:1"
 BATCH_SIZE = 4
 
 def setup_data_and_model():
     # Load Data
     train_data, test_data = load_data(DATA_FILE, IMG_DIR)
-    global MAJOR_CAMS, MINOR_CAMS
-    MAJOR_CAMS = test_data[test_data["ssp_indicator"] == "major"]["CAMID"].tolist()
-    MINOR_CAMS = test_data[test_data["ssp_indicator"] == "minor"]["CAMID"].tolist()
 
     # Model setup
     model = get_dino_model()
@@ -43,7 +40,7 @@ def extract_features(tr_sig_dloader, test_dl, model):
     return tr_features, tr_labels, test_features, test_labels, test_camids
 
 def train_and_evaluate(tr_features, tr_labels, test_features, test_labels, test_camids):
-    configs = ["svm", "sgd", "knn"]
+    configs = ["svm"]
     csv_output = []
 
     for con in configs:
@@ -51,13 +48,12 @@ def train_and_evaluate(tr_features, tr_labels, test_features, test_labels, test_
         clf, acc, h_acc, nh_acc = train(tr_features, tr_labels, con)
 
         # Save model to the specified path
-        model_filename = CLF_SAVE_DIR / f"trained_{con}_classifier.pkl"
+        model_filename = CLF_SAVE_DIR / f"clf.pkl"
         joblib.dump(clf, model_filename)
         print(f"Saved {con} classifier to {model_filename}")
         print(f"{con}: Acc - {acc:.4f}, Hacc - {h_acc:.4f}, NHacc - {nh_acc:.4f}")
         scores = get_scores(clf, test_features)
         eval_scores = evaluate(scores, test_labels, reversed=False)
-        print_major_minor_stats(scores, test_labels, test_camids, MAJOR_CAMS, MINOR_CAMS, reversed=False)        
         print_evaluation(*eval_scores)
         csv_output.append([f"BioCLIP Features + {con}"] + list(eval_scores))
     return csv_output

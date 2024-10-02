@@ -7,7 +7,7 @@ def get_feats_and_meta(dloader, model, device, ignore_feats=False):
     labels = []
     camids = []
 
-    for img, lbl, meta, _ in tqdm(dloader, desc="Extracting features"):
+    for img, lbl, meta in tqdm(dloader, desc="Extracting features"):
         with torch.no_grad():
             feats = None
             if not ignore_feats:

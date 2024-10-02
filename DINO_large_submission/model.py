@@ -8,7 +8,7 @@ You must supply at least 4 methods:
 '''
 
 import os
-import pickle
+import joblib
 
 import torch
 from torchvision import transforms
@@ -46,7 +46,7 @@ class Model:
         
         # Load Classifier weights
         with open(os.path.join(os.path.dirname(__file__), "clf.pkl"), "rb") as f:
-            self.clf = pickle.load(f)
+            self.clf = joblib.load(f)
         
         
     def _get_features(self, x: torch.Tensor) -> torch.Tensor:
@@ -61,8 +61,10 @@ class Model:
         np_features = features.detach().cpu().numpy() # Convert to numpy for classifer compatibility
         return self.clf.predict_proba(np_features)[0, 1] # Since a batch of 1, just extract float
 
+
     def predict(self, x: PIL.Image) -> float:
-        x_tensor = self.pil_transform_fn(x).to(self.device).unsqueeze(0)
-        features = self._get_features(x_tensor)
-        prediction = self._get_clf_prediction(features)
+        with torch.no_grad():
+            x_tensor = self.pil_transform_fn(x).to(self.device).unsqueeze(0)
+            features = self._get_features(x_tensor)
+            prediction = self._get_clf_prediction(features)
         return prediction

@@ -3,7 +3,7 @@ import numpy as np
 from tqdm import tqdm
 from transformers import AutoModel
 
-def get_dino_model(dino_name='facebook/dinov2-base'):
+def get_dino_model(dino_name='facebook/dinov2-large'):
     return AutoModel.from_pretrained(dino_name)
     
 def get_feats_and_meta(dloader, model, device, ignore_feats=False):
@@ -11,7 +11,7 @@ def get_feats_and_meta(dloader, model, device, ignore_feats=False):
     labels = []
     camids = []
 
-    for img, lbl, meta, _ in tqdm(dloader, desc="Extracting features"):
+    for img, lbl, meta in tqdm(dloader, desc="Extracting features"):
         with torch.no_grad():
             feats = None
             if not ignore_feats:

@@ -30,5 +30,5 @@ class ButterflyDataset(Dataset):
         if self.transforms:
             img = self.transforms(img)
             
-        return img, lbl, x['CAMID'], x["subspecies_ref"]
+        return img, lbl, x['CAMID']
 
