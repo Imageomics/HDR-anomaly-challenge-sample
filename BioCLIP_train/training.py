@@ -8,7 +8,7 @@ from open_clip import create_model
 
 from dataset import ButterflyDataset
 from data_utils import data_transforms, load_data
-from evaluation import evaluate, print_evaluation, print_major_minor_stats
+from evaluation import evaluate, print_evaluation
 from model_utils import get_feats_and_meta
 from classifier import train, get_scores
 
@@ -23,9 +23,6 @@ BATCH_SIZE = 4
 def setup_data_and_model():
     # Load Data
     train_data, test_data = load_data(DATA_FILE, IMG_DIR)
-    global MAJOR_CAMS, MINOR_CAMS
-    MAJOR_CAMS = test_data[test_data["ssp_indicator"] == "major"]["CAMID"].tolist()
-    MINOR_CAMS = test_data[test_data["ssp_indicator"] == "minor"]["CAMID"].tolist()
 
     # Model setup
     model = create_model("hf-hub:imageomics/bioclip", output_dict=True, require_pretrained=True)
@@ -58,7 +55,6 @@ def train_and_evaluate(tr_features, tr_labels, test_features, test_labels, test_
         print(f"{con}: Acc - {acc:.4f}, Hacc - {h_acc:.4f}, NHacc - {nh_acc:.4f}")
         scores = get_scores(clf, test_features)
         eval_scores = evaluate(scores, test_labels, reversed=False)
-        print_major_minor_stats(scores, test_labels, test_camids, MAJOR_CAMS, MINOR_CAMS, reversed=False)        
         print_evaluation(*eval_scores)
         csv_output.append([f"BioCLIP Features + {con}"] + list(eval_scores))
     return csv_output
