@@ -43,15 +43,3 @@ def print_evaluation(h_recall, h_precision, f1, roc_auc, acc):
           Accuracy: {acc}
           """)
 
-def print_major_minor_stats(scores, labels, camids, major_cams, minor_cams, reversed=False):
-    preds, gt = evaluate_prediction(scores, labels, reversed=reversed)
-    tmp = list(zip(scores, labels, camids))
-    tmp = sorted(tmp, key=lambda x: x[0], reverse=reversed)
-    sorted_camids = np.array(tmp)[:, 2]
-    major_idx = np.isin(np.array(sorted_camids), major_cams)
-    minor_idx = np.isin(np.array(sorted_camids), minor_cams)
-    maj_acc = accuracy_score(gt[major_idx], preds[major_idx])
-    min_acc = accuracy_score(gt[minor_idx], preds[minor_idx])
-    sub_acc = accuracy_score(gt[~np.logical_or(minor_idx, major_idx)], preds[~np.logical_or(minor_idx, major_idx)])
-    sub_recall = recall_score(gt, preds, pos_label=0)
-    print(f"Subspecies Classifier (SC) | Major Acc: {maj_acc} | Minor Acc: {min_acc} | Subspecies Acc: {sub_acc} | {sub_recall}")
