@@ -9,10 +9,35 @@ complete structure info below
 You may also wish to include a [CITATION.cff](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files) for your work.
 -->
 ```
-submission
-  <model weights>
-  model.py
-  requirements.txt
+HDR-anomaly-challenge-sample
+│
+├── BioCLIP_code_submission
+│   ├── clf.pkl
+│   ├── metadata
+│   ├── model.py
+│   └── requirements.txt
+│
+├── BioCLIP_train
+│   ├── classifier.py
+│   ├── data_utils.py
+│   ├── dataset.py
+│   ├── evaluation.py
+│   ├── model_utils.py
+│   └── training.py
+│
+├── DINO_SGD_code_submission
+│   ├── clf.pkl
+│   ├── metadata
+│   ├── model.py
+│   └── requirements.txt
+│
+└── DINO_train
+    ├── classifier.py
+    ├── data_utils.py
+    ├── dataset.py
+    ├── evaluation.py
+    ├── model_utils.py
+    └── training.py
 ```
 **Note:** If you have requirements not included in the [whitelist](https://github.com/Imageomics/HDR-anomaly-challenge/blob/main/ingestion_program/whitelist.txt), please check the [issues](https://github.com/Imageomics/HDR-anomaly-challenge/issues) on the challenge GitHub to see if someone else has requested it before making your own issue.
 
