@@ -49,6 +49,14 @@ HDR-anomaly-challenge-sample
 ```
 
 
+This repository also includes `butterfly_sample_notebook.ipynb` which loads the metadata for the images and displays a histogram of the hybrid/non-hybrid distribution by subspecies. It then downloads 15% of the data and runs through a simplified sample submission training with that subset (the sample image amount can be adjusted to work within network constraints). To run this notebook, first clone this repository and create a fresh `conda` environment, then install the requirements file:
+```
+conda create -n butterfly-sample -c conda-forge pip -y
+conda activate butterfly-sample
+pip install -r requirements.txt
+jupyter lab
+```
+
 ## References
 List any sources used in developing your model (e.g., baseline model that was fine-tuned).
 
