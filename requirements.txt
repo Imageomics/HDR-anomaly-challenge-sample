@@ -1,0 +1,6 @@
+pandas
+seaborn
+cautious-robot @ git+https://github.com/Imageomics/cautious-robot.git
+jupyterlab
+ipywidgets
+scikit-learn
