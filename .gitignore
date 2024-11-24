@@ -1,3 +1,11 @@
+# folders and files
+sample_images/
+sample_images_downsized/
+sample_images_checksums
+sample_img_logs
+sample_annotation.csv
+trained_clfs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
