@@ -4,6 +4,6 @@ cautious-robot @ git+https://github.com/Imageomics/cautious-robot.git
 jupyterlab
 ipywidgets
 scikit-learn==1.4.2
-torch==2.3.0
+torch==2.7.1
 torchvision==0.18.0
 transformers==4.46.3
