@@ -2,6 +2,7 @@ abstract: "Sample training code and submissions for the 2024 HDR Anomaly Challen
 authors:
 - family-names: Zhang
   given-names: Ziheng
+  orcid: "https://orcid.org/0009-0006-4376-6796"
   affiliation: "The Ohio State University"
 - family-names: Campolongo
   given-names: "Elizabeth G."
