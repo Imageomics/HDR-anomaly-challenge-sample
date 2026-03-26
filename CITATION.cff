@@ -1,5 +1,9 @@
 abstract: "Sample training code and submissions for the 2024 HDR Anomaly Challenge: Hybrid Butterfly Detection. It is designed to give participants a reference for both working on the challenge, and also the expected publication of their submissions following the challenge."
 authors:
+- family-names: Carlyn
+  given-names: "David E."
+  orcid: "https://orcid.org/0000-0002-8323-0359"
+  affiliation: "The Ohio State University"
 - family-names: Zhang
   given-names: Ziheng
   orcid: "https://orcid.org/0009-0006-4376-6796"
@@ -7,10 +11,6 @@ authors:
 - family-names: Campolongo
   given-names: "Elizabeth G."
   orcid: "https://orcid.org/0000-0003-0846-2413"
-  affiliation: "The Ohio State University"
-- family-names: Carlyn
-  given-names: "David E."
-  orcid: "https://orcid.org/0000-0002-8323-0359"
   affiliation: "The Ohio State University"
 - family-names: Wu
   given-names: Jiaman
