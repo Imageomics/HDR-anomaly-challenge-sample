@@ -1,6 +1,6 @@
-# Imageomics HDR Anomaly Challenge Sample
+# Imageomics HDR Anomaly Challenge Sample [![DOI](https://zenodo.org/badge/852271611.svg)](https://doi.org/10.5281/zenodo.19242252)
 
-This repository contains sample training code and submissions for the [2024 HDR Anomaly Challenge: Hybrid Butterfly Detection](https://www.codabench.org/competitions/3764/). It is designed to give participants a reference for both working on the challenge, and also the expected publication of their submissions following the challenge (i.e., how to open-source your submission).
+This repository contains sample training code and submissions for the [2024 HDR Anomaly Challenge: Hybrid Butterfly Detection](https://www.codabench.org/competitions/3764/). It is designed to give participants a reference for both working on the challenge, and also the expected publication of their submissions following the challenge (i.e., how to open-source your submission). This ML challenge ended on January 31, 2025; winners are listed on [the Anomaly Challenge leaderboard](https://www.nsfhdr.org/html/mlchallenge-y1/leaderboard.html).
 
 ## Repository Structure
 
